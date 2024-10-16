@@ -189,6 +189,41 @@ bool check_user_button_pressed()
 }
 #endif
 
+#ifdef USE_LED_MATRIX
+byte led_matrix_buffer[8];
+
+void i2c_write(byte device_addr, byte cmd, byte data)
+{
+  Wire.beginTransmission(device_addr);
+  Wire.write(cmd);
+  Wire.write(data);
+  Wire.endTransmission();
+}
+
+void clear_led_matrix()
+{
+  for(int i=0; i<8; i++) led_matrix_buffer[i] = 0;
+}
+
+void set_led_matrix_pixel(unsigned char row, unsigned char col, unsigned char value)
+{
+  if(value) led_matrix_buffer[row] |= 1 << (col+7)%8;
+  else led_matrix_buffer[row] &= ~(1 << (col+7)%8);
+}
+
+void show_led_matrix()
+{
+  // AS1115 is in shutdown on power-up. Wake up & reset feature register.
+  i2c_write(0x00, 0x0C, 0x01);
+  // // Default global intensity is minimal. Set to 50 %.
+  i2c_write(0x00, 0x0A, 0x01);
+  // // Set scan limit to display all digits.
+  i2c_write(0x00, 0x0B, 0x07);
+  i2c_write(0x00, 0x09, 0x00);
+  for(int i=0; i<8; i++) i2c_write(0x00, i+1, led_matrix_buffer[i]);
+}
+#endif
+
 #ifdef USE_DISPLAY
 void setup_display()
 {

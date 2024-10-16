@@ -55,6 +55,14 @@ void process_remote_button()
         break;
       }
       #endif
+      #ifdef USE_LED_MATRIX
+      case BTN_6:
+      {
+        Serial.println("Testing LED matrix");
+        test_led_matrix();
+        break;
+      }
+      #endif
     }
   }
   #endif
@@ -143,6 +151,31 @@ void test_user_button()
     else digitalWrite(13, LOW);
     delay(10);
   } 
+}
+#endif
+
+#ifdef USE_LED_MATRIX
+void test_led_matrix()
+{
+  clear_led_matrix();
+  for(int i=0; i<8; i++)
+  {
+    for(int j=0; j<8; j++)
+    {
+      set_led_matrix_pixel(i, j, HIGH);
+      delay(20);
+      show_led_matrix();
+    }
+  }
+  for(int i=0; i<8; i++)
+  {
+    for(int j=0; j<8; j++)
+    {
+      set_led_matrix_pixel(i, j, LOW);
+      delay(20);
+      show_led_matrix();
+    }
+  }
 }
 #endif
 

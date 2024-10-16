@@ -105,6 +105,12 @@ void setup_user_button();
 bool check_user_button_pressed();
 #endif
 
+#ifdef USE_LED_MATRIX
+void clear_led_matrix();
+void set_led_matrix_pixel(unsigned char row, unsigned char col, unsigned char value);
+void show_led_matrix();
+#endif
+
 #ifdef USE_DISPLAY
 //Screen
 void setup_display();
