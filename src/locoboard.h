@@ -20,9 +20,9 @@
 #define PIN_MOTOR_B1A 7
 #define PIN_MOTOR_B1B 6
 
-#define PIN_SERVO_1 8
-#define PIN_SERVO_2 9
-#define PIN_SERVO_3 10
+#define PIN_SERVO_1 9
+#define PIN_SERVO_2 10
+#define PIN_SERVO_3 11
 
 #define PIN_POTENTIOMETER A1
 #define PIN_ADDR_LED A2

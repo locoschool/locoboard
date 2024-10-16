@@ -129,7 +129,6 @@ void test_addr_leds()
 void setup()
 {
   Serial.begin(115200);
-  
   #ifdef USE_DISPLAY
   setup_display();
   #endif
