@@ -62,6 +62,8 @@
 typedef struct {
   unsigned char button;
   unsigned char keypress_registered;
+  bool held;
+  unsigned long last;
 } Remote;
 #endif
 
@@ -84,9 +86,11 @@ int measure_distance_mm(unsigned char sensor_id);
 
 #ifdef USE_REMOTE
 //Remote
+#define REMOTE_INTERVAL_MS 1000/8
 void setup_ir();
 bool check_ir_button_pressed();
 unsigned char get_ir_button();
+bool get_ir_held();
 #endif
 
 #ifdef USE_POTENTIOMETER
