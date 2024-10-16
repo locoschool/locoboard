@@ -47,6 +47,14 @@ void process_remote_button()
         break;
       }
       #endif
+      #ifdef USE_USER_BUTTON
+      case BTN_5:
+      {
+        Serial.println("Testing user button");
+        test_user_button();
+        break;
+      }
+      #endif
     }
   }
   #endif
@@ -126,6 +134,18 @@ void test_addr_leds()
 }
 #endif
 
+#ifdef USE_USER_BUTTON
+void test_user_button()
+{
+  for (int i=0; i<1000; i++)
+  {
+    if(check_user_button_pressed()) digitalWrite(13, HIGH);
+    else digitalWrite(13, LOW);
+    delay(10);
+  } 
+}
+#endif
+
 void setup()
 {
   Serial.begin(115200);
@@ -143,6 +163,9 @@ void setup()
   #endif
   #ifdef USE_ADDR_LEDS
   setup_addr_leds();
+  #endif
+  #ifdef USE_USER_BUTTON
+  setup_user_button();
   #endif
 }
 

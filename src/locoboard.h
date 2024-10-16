@@ -29,6 +29,8 @@
 
 #define IR_RECEIVE_PIN 2
 
+#define PIN_USER_BUTTON 3
+
 //BUTTON DEFINITIONS
 #define BTN_0 25
 #define BTN_1 69
@@ -96,6 +98,11 @@ int read_potentiometer_value();
 //Address LEDs
 void setup_addr_leds();
 void set_led_color(unsigned char led_index, unsigned char r, unsigned char g, unsigned char b);
+#endif
+
+#ifdef USE_USER_BUTTON
+void setup_user_button();
+bool check_user_button_pressed();
 #endif
 
 #ifdef USE_DISPLAY

@@ -177,6 +177,18 @@ void set_led_color(unsigned char led_index, unsigned char r, unsigned char g, un
 }
 #endif
 
+#ifdef USE_USER_BUTTON
+void setup_user_button()
+{
+  pinMode(PIN_USER_BUTTON, INPUT);
+}
+
+bool check_user_button_pressed()
+{
+  return digitalRead(PIN_USER_BUTTON);
+}
+#endif
+
 #ifdef USE_DISPLAY
 void setup_display()
 {
