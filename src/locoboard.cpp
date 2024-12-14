@@ -31,7 +31,6 @@ SSOLED ssoled;
 uint8_t ucBackBuffer[1024];
 #endif
 
-// Motor motor[2];
 #ifdef USE_SERVO
 Servo servo[3];
 #endif
@@ -48,46 +47,56 @@ Remote remote;
 CRGB leds[4];
 #endif
 
-/*
+#ifdef USE_MOTORS
 void rotate_motor(unsigned char motor_ind, unsigned char direction, unsigned char speed)
 {
-  unsigned char v1, v2;
-  switch(direction)
+  if(motor_ind == MOTOR_L)
   {
-    case 0:
-    {
-      v1 = LOW;
-      v2 = speed;
-      break;
-    }
-    case 1:
-    {
-      v1 = HIGH;
-      v2 = 255 - speed;
-      break;
-    }
+    digitalWrite(PIN_MOTOR_L_DIR, direction);
+    digitalWrite(PIN_MOTOR_L_PWM, speed);
   }
-  digitalWrite(motor[motor_ind].pin_a, v1);
-  analogWrite(motor[motor_ind].pin_b, v2);
+  else if(motor_ind == MOTOR_R)
+  {
+    digitalWrite(PIN_MOTOR_R_DIR, direction);
+    digitalWrite(PIN_MOTOR_R_PWM, speed);
+  }
+  else
+  {
+    Serial.println("ERROR: wrong motor index.");
+  }
 }
 
 void stop_motor(unsigned char motor_ind)
 {
-  digitalWrite(motor[motor_ind].pin_a, LOW);
-  digitalWrite(motor[motor_ind].pin_b, LOW);
+  if(motor_ind == MOTOR_L)
+  {
+    digitalWrite(PIN_MOTOR_L_DIR, LOW);
+    digitalWrite(PIN_MOTOR_L_PWM, LOW);
+  }
+  else if(motor_ind == MOTOR_R)
+  {
+    digitalWrite(PIN_MOTOR_R_DIR, LOW);
+    digitalWrite(PIN_MOTOR_R_PWM, LOW);
+  }
+  else
+  {
+    Serial.println("ERROR: wrong motor index.");
+  }
 }
 
-void setup_motor_pins(unsigned char motor_ind, unsigned char pin_a, unsigned char pin_b)
+void setup_motor_pins()
 {
-  motor[motor_ind].pin_a = pin_a;
-  motor[motor_ind].pin_b = pin_b;
+  pinMode(PIN_MOTOR_L_DIR, OUTPUT);
+  pinMode(PIN_MOTOR_L_PWM, OUTPUT);
+  pinMode(PIN_MOTOR_R_DIR, OUTPUT);
+  pinMode(PIN_MOTOR_R_PWM, OUTPUT);
 
-  pinMode(motor[motor_ind].pin_a, OUTPUT);
-  pinMode(motor[motor_ind].pin_b, OUTPUT);
-
-  digitalWrite(motor[motor_ind].pin_a, LOW);
-  digitalWrite(motor[motor_ind].pin_b, LOW);
-}*/
+  digitalWrite(PIN_MOTOR_L_DIR, LOW);
+  digitalWrite(PIN_MOTOR_L_PWM, LOW);
+  digitalWrite(PIN_MOTOR_R_DIR, LOW);
+  digitalWrite(PIN_MOTOR_R_PWM, LOW);
+}
+#endif
 
 #ifdef USE_SERVO
 void rotate_servo(unsigned char servo_ind, unsigned char degrees)

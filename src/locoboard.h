@@ -14,11 +14,17 @@
 #define LED_3 2
 #define LED_4 3
 
+#define MOTOR_L 0
+#define MOTOR_R 1
+
+#define MOTOR_DIR_FORWARD 0
+#define MOTOR_DIR_BACKWARD 1
+
 // PIN DEFINITIONS
-#define PIN_MOTOR_A1A 4
-#define PIN_MOTOR_A1B 5
-#define PIN_MOTOR_B1A 7
-#define PIN_MOTOR_B1B 6
+#define PIN_MOTOR_L_DIR 4
+#define PIN_MOTOR_L_PWM 5
+#define PIN_MOTOR_R_DIR 7
+#define PIN_MOTOR_R_PWM 6
 
 #define PIN_SERVO_1 9
 #define PIN_SERVO_2 10
@@ -52,12 +58,6 @@
 
 // FUNCTION DEFINITIONS
 
-// Motor control
-/*typedef struct {
-  unsigned char pin_a;
-  unsigned char pin_b;
-} Motor;*/
-
 #ifdef USE_REMOTE
 typedef struct {
   unsigned char button;
@@ -66,9 +66,11 @@ typedef struct {
 #endif
 
 //Motor
-/*void rotate_motor(unsigned char motor_ind, unsigned char direction, unsigned char speed);
+#ifdef USE_MOTORS
+void rotate_motor(unsigned char motor_ind, unsigned char direction, unsigned char speed);
 void stop_motor(unsigned char motor_ind);
-void setup_motor_pins(unsigned char motor_ind, unsigned char pin_a, unsigned char pin_b);*/
+void setup_motor_pins();
+#endif
 
 #ifdef USE_SERVO
 // Servo control

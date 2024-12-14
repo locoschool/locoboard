@@ -63,6 +63,18 @@ void process_remote_button()
         break;
       }
       #endif
+      #ifdef USE_MOTORS
+      case BTN_UP:
+      case BTN_DOWN:
+      case BTN_LEFT:
+      case BTN_RIGHT:
+      case BTN_OK:
+      {
+        Serial.println("Testing motor command");
+        test_motors(get_ir_button());
+        break;
+      }
+      #endif
     }
   }
   #endif
@@ -179,6 +191,45 @@ void test_led_matrix()
 }
 #endif
 
+#ifdef USE_MOTORS
+void test_motors(unsigned int button)
+{
+  switch(button)
+  {
+    case BTN_UP:
+    {
+      rotate_motor(MOTOR_L, MOTOR_DIR_FORWARD, 128);
+      rotate_motor(MOTOR_R, MOTOR_DIR_FORWARD, 128);
+      break;
+    }
+    case BTN_DOWN:
+    {
+      rotate_motor(MOTOR_L, MOTOR_DIR_BACKWARD, 128);
+      rotate_motor(MOTOR_R, MOTOR_DIR_BACKWARD, 128);
+      break;
+    }
+    case BTN_LEFT:
+    {
+      rotate_motor(MOTOR_L, MOTOR_DIR_BACKWARD, 128);
+      rotate_motor(MOTOR_R, MOTOR_DIR_FORWARD, 128);
+      break;
+    }
+    case BTN_RIGHT:
+    {
+      rotate_motor(MOTOR_L, MOTOR_DIR_FORWARD, 128);
+      rotate_motor(MOTOR_R, MOTOR_DIR_BACKWARD, 128);
+      break;
+    }
+    case BTN_OK:
+    {
+      stop_motor(MOTOR_L);
+      stop_motor(MOTOR_R);
+      break;
+    }
+  }
+}
+#endif
+
 void setup()
 {
   Serial.begin(115200);
@@ -200,9 +251,19 @@ void setup()
   #ifdef USE_USER_BUTTON
   setup_user_button();
   #endif
+  #ifdef USE_MOTORS
+  setup_motor_pins();
+  #endif
 }
 
 void loop()
 {
-  process_remote_button();
+  // process_remote_button();
+  delay(2000);
+  rotate_motor(0, 0, 100);
+  rotate_motor(1, 0, 100);
+  delay(2000);
+  stop_motor(0);
+  stop_motor(1);
+  delay(20000);
 }
