@@ -152,17 +152,32 @@ void setup_ir()
 
 bool check_ir_button_pressed()
 {
+  unsigned long now = millis();
   if(TinyReceiverDecode())
   {
+    remote.last = now;
+
+    if(remote.held && remote.button == TinyIRReceiverData.Command)
+      return false;
+
     remote.button = TinyIRReceiverData.Command;
+    remote.held = true;
     return true;
   }
-  else return false;
+  else if((now - remote.last) > REMOTE_INTERVAL_MS)
+    remote.held = false;
+
+  return false;
 }
 
 unsigned char get_ir_button()
 {
   return remote.button;
+}
+
+bool get_ir_held()
+{
+  return remote.held;
 }
 #endif
 
